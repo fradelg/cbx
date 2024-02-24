@@ -49,7 +49,7 @@ def convert_file(cbr_path: Path, tmp_dir: Path, pdf_dpi: int):
         # Convert all the images to WebP, preserving the stem of the filename
         logger.info(f"Extracting pages from {cbr_path}...")
         patoolib.extract_archive(str(cbr_path), outdir=str(tmp_dir), interactive=False)
-        jpg_paths = list(tmp_dir.glob("**/*.jp*g"))
+        jpg_paths = list(tmp_dir.glob("**/*.jp*g")) + list(tmp_dir.glob("**/*.png"))
         for im_path in tqdm(jpg_paths, desc="Converting images to WebP"):
             webp_path = tmp_dir / f"{im_path.stem}.webp"
             Image.open(im_path).save(webp_path, "webp")
